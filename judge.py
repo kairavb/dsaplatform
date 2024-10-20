@@ -1,8 +1,8 @@
-import importlib
+from importlib import import_module
 
 # importing expected_code and given_code
-expected_code = importlib.import_module('answers.a1')
-given_code = importlib.import_module('answers.user')
+expected_code = import_module('answers.a1')
+given_code = import_module('answers.user')
 
 # getting testcases array ready
 testcases = []

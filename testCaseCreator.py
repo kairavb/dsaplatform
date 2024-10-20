@@ -46,12 +46,12 @@ def type_string(n):
 
 NUMT = 200
 
-# python script.py 'ss 0-200 0-500'
+# python script.py 'ss 0/200 0/500'
 test = argv[1].split()
 
 for i, k in enumerate(test[0]):
 
-    n = test[i + 1].split('-')
+    n = test[i + 1].split('/')
     n = list(map(int, n))
 
     if k == 'a':
