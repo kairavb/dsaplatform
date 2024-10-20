@@ -46,24 +46,24 @@ def type_string(n):
 
 NUMT = 200
 
-# python script.py 'ss 0/200 0/500'
+# python script.py 'ss 0t200 0t500'
 test = argv[1].split()
 
 for i, k in enumerate(test[0]):
 
-    n = test[i + 1].split('/')
+    n = test[i + 1].split('t')
     n = list(map(int, n))
 
     if k == 'a':
-        with open('output.txt', 'a') as file:
+        with open(f'tests/{argv[1]}.txt', 'a') as file:
             for _ in range(NUMT):
                 file.write(f'{type_array(n)}\n')
 
     elif k == 's':
-        with open('output.txt', 'a') as file:
+        with open(f'tests/{argv[1]}.txt', 'a') as file:
             for _ in range(NUMT):
                 file.write(f'{type_string(n)}\n')
     else:
-        with open('output.txt', 'a') as file:
+        with open(f'tests/{argv[1]}.txt', 'a') as file:
             for _ in range(NUMT):
                 file.write(f'{type_nums(n)}\n')
