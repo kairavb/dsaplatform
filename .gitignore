@@ -1,0 +1,10 @@
+answers/__pycache__/
+*.py[cod]
+
+/problems
+
+/answers
+
+/tests
+
+/output.txt
