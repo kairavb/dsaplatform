@@ -1,3 +1,7 @@
+# File usage -> python script.py 'ss 0t200 0t500'
+# 'ss 0t200 0t500' is testcase constraint, a - array, s - string, n - number, t - to
+# Generates test cases on given code constraints
+
 from random import randrange
 from sys import argv
 
@@ -32,22 +36,9 @@ def type_string(n):
     return s
 
 
-# print("a - a")
-# print("b - an")
-# print("c - asn")
-# print("d - s")
-# print("e - sn")
-# print("f - n")
-# print("g - nn")
-# print("h - nnn")
-# print("i - ann")
-# print("j - ss")
+NUMT = 200  # number of testcases per arg
 
-
-NUMT = 200
-
-# python script.py 'ss 0t200 0t500'
-test = argv[1].split()
+test = argv[1].split()  # testcase constraint
 
 for i, k in enumerate(test[0]):
 

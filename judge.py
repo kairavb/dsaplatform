@@ -1,9 +1,13 @@
+# File usage -> python judge.py {question number}
+# Judges the user code against question number on test cases
+
 from importlib import import_module
 from ast import literal_eval
 from os import path, system
+from sys import argv
 
 NUMT = 200  # number of testcases per arg
-PNUM = 1  # question number
+PNUM = int(argv[1])  # question number
 
 # importing expected_code and given_code
 expected_code = import_module(f'answers.a{PNUM}')
@@ -42,7 +46,6 @@ for i in range(NUMT):
         given_ans = given_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
         expected_ans = expected_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
 
-    
 
     if given_ans == expected_ans:
         print(f"testcase {i + 1} passed")
