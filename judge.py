@@ -1,13 +1,21 @@
 from importlib import import_module
 from ast import literal_eval
+from os import path, system
 
-NUMT = 200
+NUMT = 200  # number of testcases per arg
+PNUM = 1  # question number
 
 # importing expected_code and given_code
-expected_code = import_module('answers.a1')
+expected_code = import_module(f'answers.a{PNUM}')
 given_code = import_module('answers.user')
 
-name = 'an 1t10t-100t100 -100t100'
+# read problem test case requirements
+with open(f'problems/p{PNUM}.md', 'r') as file:
+    name = file.readline().strip()
+
+# if problem testcase not present, create one
+if not path.isfile(f'tests/{name}.txt'):
+    system(f'python testCaseCreator.py {name}')
 
 # getting testcases array ready
 testcases = []
