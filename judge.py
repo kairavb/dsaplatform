@@ -19,7 +19,7 @@ with open(f'problems/p{PNUM}.md', 'r') as file:
 
 # if problem testcase not present, create one
 if not path.isfile(f'tests/{name}.txt'):
-    system(f'python testCaseCreator.py {name}')
+    system(f'python testCaseCreator.py "{name}"')
 
 # getting testcases array ready
 testcases = []
