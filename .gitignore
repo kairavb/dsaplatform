@@ -8,3 +8,6 @@ answers/__pycache__/
 /tests
 
 /output.txt
+
+data.txt
+/templates

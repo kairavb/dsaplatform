@@ -1,4 +1,4 @@
-# File usage -> python judge.py {question number}
+# File usage -> python judge.py 'testcasefile' 'answerfile'
 # Judges the user code against question number on test cases
 
 from importlib import import_module
@@ -7,23 +7,16 @@ from os import path, system
 from sys import argv
 
 NUMT = 200  # number of testcases per arg
-PNUM = int(argv[1])  # question number
+TESTFILE = argv[1]  # testcase file
+ANSFILE = argv[2]  # answer file
 
 # importing expected_code and given_code
-expected_code = import_module(f'answers.a{PNUM}')
+expected_code = import_module(f'answers.{ANSFILE}')
 given_code = import_module('answers.user')
-
-# read problem test case requirements
-with open(f'problems/p{PNUM}.md', 'r') as file:
-    name = file.readline().strip()
-
-# if problem testcase not present, create one
-if not path.isfile(f'tests/{name}.txt'):
-    system(f'python testCaseCreator.py "{name}"')
 
 # getting testcases array ready
 testcases = []
-with open(f'tests/{name}.txt', 'r') as file:
+with open(f'tests/{TESTFILE}.txt', 'r') as file:
     for line in file:
         testcases.append(literal_eval(line))
 n = len(testcases)
@@ -33,18 +26,23 @@ args = n//NUMT
 for i in range(NUMT):
     status = True
 
-    if args == 1:
-        given_ans = given_code.main(testcases[i])
-        expected_ans = expected_code.main(testcases[i])
-    elif args == 2:
-        given_ans = given_code.main(testcases[i], testcases[i + NUMT])
-        expected_ans = expected_code.main(testcases[i], testcases[i + NUMT])
-    elif args == 3:
-        given_ans = given_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT])
-        expected_ans = expected_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT])
-    else:
-        given_ans = given_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
-        expected_ans = expected_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
+    try:
+        if args == 1:
+            given_ans = given_code.main(testcases[i])
+            expected_ans = expected_code.main(testcases[i])
+        elif args == 2:
+            given_ans = given_code.main(testcases[i], testcases[i + NUMT])
+            expected_ans = expected_code.main(testcases[i], testcases[i + NUMT])
+        elif args == 3:
+            given_ans = given_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT])
+            expected_ans = expected_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT])
+        else:
+            given_ans = given_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
+            expected_ans = expected_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
+    except Exception as e:
+        print(f"Execution Error, {e}")
+        status = False
+        break
 
 
     if given_ans == expected_ans:
