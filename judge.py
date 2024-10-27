@@ -3,7 +3,7 @@
 
 from importlib import import_module
 from ast import literal_eval
-from sys import argv
+from sys import argv, exit
 
 NUMT = 500  # number of testcases per arg
 TESTFILE = argv[1]  # testcase file
@@ -15,7 +15,7 @@ try:
     given_code = import_module('user')
 except Exception as e:
     print(f"Syntax Error, {e}")
-    exit()
+    exit(1)
 
 # getting testcases array ready
 testcases = []
@@ -45,7 +45,7 @@ for i in range(NUMT):
     except Exception as e:
         print(f"Execution Error, {e}")
         status = False
-        break
+        exit(1)
 
 
     if given_ans == expected_ans:
