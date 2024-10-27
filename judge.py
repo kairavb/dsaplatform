@@ -5,13 +5,17 @@ from importlib import import_module
 from ast import literal_eval
 from sys import argv
 
-NUMT = 200  # number of testcases per arg
+NUMT = 500  # number of testcases per arg
 TESTFILE = argv[1]  # testcase file
 ANSFILE = argv[2]  # answer file
 
 # importing expected_code and given_code
-expected_code = import_module(f'answers.{ANSFILE}')
-given_code = import_module('user')
+try:
+    expected_code = import_module(f'answers.{ANSFILE}')
+    given_code = import_module('user')
+except Exception as e:
+    print(f"Syntax Error, {e}")
+    exit()
 
 # getting testcases array ready
 testcases = []

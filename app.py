@@ -2,7 +2,7 @@ from flask import Flask, redirect, render_template, request
 from waitress import serve
 from ast import literal_eval
 from random import randint
-from time import time
+from os import system
 
 QRANGE = [1, 3]
 qdata = []
@@ -34,7 +34,7 @@ def index():
             n, minutes = 3, 10
 
         for _ in range(n):
-            qdata.append([data[randint(QRANGE[0], QRANGE[1])][1], minutes])
+            qdata.append([data[randint(QRANGE[0], QRANGE[1])][0], minutes])
         return redirect("/game")
     else:
         return render_template("index.html")
@@ -46,6 +46,8 @@ def game():
         textarea_content = request.form['textarea']
         with open('user.py', 'w') as f:
             f.write(textarea_content + '\n')
+        
+        system(f"python judge.py '{data[qdata[-1][0]][1]}' '{data[qdata[-1][0]][3]}'")
 
         qdata.pop()
         if len(qdata) == 0:
@@ -54,7 +56,7 @@ def game():
         if len(qdata) == 0:
             return redirect("/")
 
-    return render_template("index4.html", timer=qdata[-1][1], prblm=qdata[-1][0])
+    return render_template("index4.html", timer=qdata[-1][1], prblm=data[qdata[-1][0]][2])
 
 
 @app.route("/results", methods=["GET","POST"])
