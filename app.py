@@ -18,11 +18,23 @@ def index():
     if request.method == "POST":
         global qdata
         qdata = []
-        qid = request.form.get("1")
+        qid = request.form.get("code")
 
-        for _ in range(3):
-            qdata.append([data[randint(1,3)][1], 10])
+        if qid == 1:
+            n, minutes = 3, 10
+        elif qid == 2:
+            n, minutes = 3, 10
+        elif qid == 3:
+            n, minutes = 3, 10
+        elif qid == 4:
+            n, minutes = 3, 10
+        elif qid == 5:
+            n, minutes = 3, 10
+        else:
+            n, minutes = 3, 10
 
+        for _ in range(n):
+            qdata.append([data[randint(QRANGE[0], QRANGE[1])][1], minutes])
         return redirect("/game")
     else:
         return render_template("index.html")
@@ -31,7 +43,6 @@ def index():
 @app.route("/game", methods=["GET","POST"])
 def game():
     if request.method == "POST":
-
         textarea_content = request.form['textarea']
         with open('user.py', 'w') as f:
             f.write(textarea_content + '\n')
@@ -39,11 +50,10 @@ def game():
         qdata.pop()
         if len(qdata) == 0:
             return "done" # results screen
-        
     else:
         if len(qdata) == 0:
             return redirect("/")
-        
+
     return render_template("index4.html", timer=qdata[-1][1], prblm=qdata[-1][0])
 
 
