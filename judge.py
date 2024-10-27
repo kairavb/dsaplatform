@@ -3,7 +3,6 @@
 
 from importlib import import_module
 from ast import literal_eval
-from os import path, system
 from sys import argv
 
 NUMT = 200  # number of testcases per arg
@@ -12,7 +11,7 @@ ANSFILE = argv[2]  # answer file
 
 # importing expected_code and given_code
 expected_code = import_module(f'answers.{ANSFILE}')
-given_code = import_module('answers.user')
+given_code = import_module('user')
 
 # getting testcases array ready
 testcases = []

@@ -11,3 +11,5 @@ answers/__pycache__/
 
 data.txt
 /templates
+user.py
+/static
