@@ -1,7 +1,7 @@
 from flask import Flask, redirect, render_template, request
 from waitress import serve
 from ast import literal_eval
-from random import randint
+from random import sample
 from subprocess import run
 
 QRANGE = [1, 3]
@@ -35,9 +35,9 @@ def index():
         else:
             n, minutes = 10, 10
 
-        for _ in range(n):
-            qnum = randint(QRANGE[0], QRANGE[1])
-            qdata.append([data[qnum][0], minutes, data[qnum][4]])
+        qlist = sample(range(QRANGE[0], QRANGE[1] + 1), n)
+        for i in qlist:
+            qdata.append([data[i][0], minutes, data[i][4]])
         return redirect("/game")
     else:
         return render_template("index.html")
