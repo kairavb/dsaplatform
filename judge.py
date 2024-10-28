@@ -27,8 +27,6 @@ args = n//NUMT
 
 # check given code
 for i in range(NUMT):
-    status = True
-
     try:
         if args == 1:
             given_ans = given_code.main(testcases[i])
@@ -44,22 +42,17 @@ for i in range(NUMT):
             expected_ans = expected_code.main(testcases[i], testcases[i + NUMT], testcases[i + 2 * NUMT], testcases[i + 3 * NUMT])
     except Exception as e:
         print(f"Execution Error, {e}")
-        status = False
         exit(1)
 
 
     if given_ans == expected_ans:
-        print(f"testcase {i + 1} passed")
+        # print(f"Testcase {i + 1} Passed")
+        pass
     else:
-        print(f"Testcase {i + 1} Failed\n")
-        print(f"Testcase:\n{testcases[i]}")
+        # print(f"Testcase {i + 1} Failed\n")
+        print(f"Input:\n{testcases[i]}")
         print(f"Output:\n{given_ans}")
         print(f"Required Output:\n{expected_ans}")
-        status = False
-        break
+        exit(1)
 
-print()
-if status:
-    print("All test cases Successfully Passed!")
-else:
-    print("Retry...")
+exit(0)

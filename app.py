@@ -18,12 +18,12 @@ def index():
     if request.method == "POST":
         global qdata
         qdata = []
-        qid = request.form.get("code")
+        qid = int(request.form.get("code"))
 
         if qid == 1:
-            n, minutes = 3, 10
+            n, minutes = 3, 5
         elif qid == 2:
-            n, minutes = 3, 10
+            n, minutes = 2, 7
         elif qid == 3:
             n, minutes = 3, 10
         elif qid == 4:
