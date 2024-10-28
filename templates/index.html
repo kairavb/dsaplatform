@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Interface</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            position: relative; /* Make body relative for absolute positioning of tooltip */
+        }
+        .container {
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 5.5em;
+            color: #61dafb;
+        }
+        .button {
+            display: inline-block;
+            background-color: #61dafb;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+        .button:hover {
+            background-color: #21a1f1;
+            transform: scale(1.05);
+        }
+        form {
+            display: inline-block;
+        }
+        .tooltip {
+            position: absolute;
+            bottom: 20px; /* Adjust as needed */
+            left: 50%; /* Center horizontally */
+            transform: translateX(-50%); /* Center alignment */
+            font-style: italic;
+            text-align: center;
+            font-size: 1.2em;
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s;
+            margin-bottom: 200px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Competitive Programming <br>Interface</h1>
+    <br><br><br><br><br>
+    <div>
+        <form id="codeForm" action="/", method="POST">
+            <button class="button" data-code="1" onmouseover="showTooltip('3 que, 5 min each')">Gamemode 1</button>
+            <button class="button" data-code="2" onmouseover="showTooltip('2 que, 7 min each')">Gamemode 2</button>
+            <button class="button" data-code="3" onmouseover="showTooltip('This is Button 3')">Button 3</button>
+            <button class="button" data-code="4" onmouseover="showTooltip('This is Button 4')">Button 4</button>
+            <button class="button" data-code="5" onmouseover="showTooltip('This is Button 5')">Button 5</button>
+            <button class="button" data-code="6" onmouseover="showTooltip('This is Button 6')">Button 6</button>
+        </form>
+    </div>
+    <div class="tooltip" id="tooltip">Hover over a button to see info</div>
+    <br><br><br><br><br><br><br><br><br><br><br>
+</div>
+
+<script>
+    // submit form
+    document.querySelectorAll('.button').forEach(button => {
+        button.addEventListener('click', () => {
+            const code = button.getAttribute('data-code');
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'code';
+            input.value = code;
+            const form = document.getElementById('codeForm');
+            form.appendChild(input);
+            form.submit();
+        });
+    });
+
+    // tooltip
+    function showTooltip(text) {
+        const tooltip = document.getElementById('tooltip');
+        tooltip.textContent = text;
+        tooltip.style.opacity = '1';
+    }
+
+    document.querySelectorAll('.button').forEach(button => {
+        button.addEventListener('mouseout', () => {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.style.opacity = '0';
+        });
+    });
+</script>
+
+</body>
+</html>
