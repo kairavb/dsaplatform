@@ -4,13 +4,14 @@ from ast import literal_eval
 from random import sample
 from subprocess import run
 
-QRANGE = [1, 3]
 qdata = []
-score = 0
+score, maxscore = 0, 0
 data = []
 with open(f'data.txt', 'r') as file:
     for line in file:
         data.append(literal_eval(line))
+QRANGE = [1, len(data) - 1]
+SCORECARD = [-20, 50 , 70, 100]
 
 app = Flask(__name__)
 
@@ -45,7 +46,7 @@ def index():
 
 @app.route("/game", methods=["GET","POST"])
 def game():
-    global score
+    global score, maxscore
     return_code = 0
     output = ''
     if request.method == "POST":
@@ -56,19 +57,16 @@ def game():
         result = run(['python', 'judge.py', f'{data[qdata[-1][0]][1]}', f'{data[qdata[-1][0]][3]}'], capture_output=True, text=True)
         return_code = result.returncode
         output = result.stdout
-
-        if return_code == 1:
-            score -= 20
-        elif qdata[-1][2] == 0:
-            score += 50
-        elif qdata[-1][2] == 1:
-            score += 70
+        
+        maxscore += SCORECARD[qdata[-1][2] + 1]
+        if return_code == 0:
+            score += SCORECARD[qdata[-1][2] + 1]
         else:
-            score += 100
+            score += SCORECARD[0]
 
         qdata.pop()
         if len(qdata) == 0:
-            return f"your total score is: {score}"
+            return f"your total score is: {score} out of {maxscore}"
     else:
         if len(qdata) == 0:
             return redirect("/")
