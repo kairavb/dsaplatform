@@ -1,5 +1,5 @@
 # File usage -> python script.py 'ss 0t200 0t500'
-# 'ss 0t200 0t500' is testcase constraint, a - array, s - string, n - number, t - to
+# 'ss 0t200 0t500' is testcase constraint, a - array(nums), s - string, n - number, b - array(char), t - to
 # Generates test cases on given code constraints
 
 from random import randint, choice, sample
@@ -20,7 +20,30 @@ def type_array(n):
     testcases.extend(edgecases)
 
     while len(testcases) < NUMT:
-        randomcase = [randint(n[2], n[3]) for _ in range(n[0], min(n[1], 100) + 1)]
+        randomcase = [randint(n[2], n[3]) for _ in range(n[0], min(n[1], RTLENGTH) + 1)]
+        testcases.append(randomcase)
+    
+    return testcases
+
+def type_array_c(n):
+    testcases = []
+    stringtype = [chr(i) for i in range(65, 91)]
+    stringtype.extend([chr(i) for i in range(97, 123)])
+    stringtype.extend([chr(i) for i in range(48, 58)])
+
+    edgecases = [
+        [choice(stringtype)] * n[1],
+        [choice(stringtype)] * n[1],
+        [choice(stringtype)] * n[0],
+        [choice(stringtype)] * n[0],
+        [choice(stringtype) for _ in range(n[0], n[1]  + 1)],
+        [choice(stringtype) for _ in range(n[0], n[1]  + 1)]
+    ]
+
+    testcases.extend(edgecases)
+
+    while len(testcases) < NUMT:
+        randomcase = [choice(stringtype) for _ in range(n[0], min(n[1], RTLENGTH) + 1)]
         testcases.append(randomcase)
     
     return testcases
@@ -55,13 +78,14 @@ def type_string(n):
     testcases.extend(edgecases)
 
     while len(testcases) < NUMT:
-        randomcase = ''.join(choice(stringtype) for _ in range(n[0], min(n[1], 100) + 1))
+        randomcase = ''.join(choice(stringtype) for _ in range(n[0], min(n[1], RTLENGTH) + 1))
         testcases.append(randomcase)
     
     return testcases
 
 
 NUMT = 500  # number of testcases per arg
+RTLENGTH = 50  # random case length for aray, string
 
 test = argv[1].split()  # testcase constraint
 
@@ -81,6 +105,13 @@ for i, k in enumerate(test[0]):
             tests = type_string(n)
             for i in tests:
                 file.write(f'{i}\n')
+
+    elif k == 'b':
+        with open(f'tests/{argv[1]}.txt', 'a') as file:
+            tests = type_array_c(n)
+            for i in tests:
+                file.write(f'{i}\n')
+    
     else:
         with open(f'tests/{argv[1]}.txt', 'a') as file:
             tests = type_nums(n)
