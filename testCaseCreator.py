@@ -2,7 +2,7 @@
 # 'ss 0t200 0t500' is testcase constraint, a - array, s - string, n - number, t - to
 # Generates test cases on given code constraints
 
-from random import randint, choice
+from random import randint, choice, sample
 from sys import argv
 
 
@@ -26,13 +26,17 @@ def type_array(n):
     return testcases
 
 def type_nums(n):
-    testcases = []
+    # chooses more unique numbers
     edgecases = [n[0], n[1]]
-    testcases.extend(edgecases)
 
-    while len(testcases) < NUMT:
-        randomcase = randint(n[0], min(n[1], 10**7))
-        testcases.append(randomcase)
+    if n[1] - n[0] + 1 < NUMT - len(edgecases):
+        testcases = sample(range(n[0], n[1] + 1), n[1])
+        for _ in range(NUMT - len(edgecases) - n[1] - n[0] + 1):
+            testcases.append(randint(n[0], n[1]))
+    else:
+        testcases = sample(range(n[0], n[1] + 1), NUMT - len(edgecases))
+
+    testcases.extend(edgecases)
 
     return testcases
 
