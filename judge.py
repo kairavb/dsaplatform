@@ -4,6 +4,7 @@
 from importlib import import_module
 from ast import literal_eval
 from sys import argv, exit
+from os import path, system
 
 NUMT = 500  # number of testcases per arg
 TESTFILE = argv[1]  # testcase file
@@ -16,6 +17,9 @@ try:
 except Exception as e:
     print(f"Syntax Error, {e}")
     exit(1)
+
+if not path.isfile(f'tests/{TESTFILE}.txt'):
+    system(f"python testCaseCreator.py '{TESTFILE}'")
 
 # getting testcases array ready
 testcases = []
