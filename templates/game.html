@@ -27,16 +27,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: #4CAF50;
-            padding: 10px;
+            background-color: #4a90e2; /* A nice blue color */
+            padding: 10px 30px;
             color: white;
+            font-family: Arial, sans-serif;
         }
-        .top-bar .button {
-            background-color: #f0f0f0;
-            color: black;
+        #points, #timer {
+            font-size: 24px;
+            margin: 0;
+        }
+        .button {
+            background-color: #ff6f61; /* A vibrant coral color */
+            color: white;
             border: none;
-            padding: 10px;
+            border-radius: 3px;
+            padding: 10px 15px;
             cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #e55b50; /* A slightly darker coral */
         }
         .column {
             flex-grow: 1;
@@ -94,6 +105,10 @@
     // timer
     let totalSeconds = `{{timer}}` * 60;
     function updateTimer() {
+        if (totalSeconds <= 0) {
+            document.getElementById('submitButton').click();
+            return;
+        }
         totalSeconds--;
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
