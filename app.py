@@ -18,9 +18,9 @@ app = Flask(__name__)
 @app.route("/", methods=["GET","POST"])
 def index():
     if request.method == "POST":
-        global qdata, score
+        global qdata, score, maxscore
         qdata = []
-        score = 0
+        score, maxscore = 0, 0
         qid = int(request.form.get("code"))
 
         if qid == 1:
@@ -66,7 +66,8 @@ def game():
 
         qdata.pop()
         if len(qdata) == 0:
-            return f"your total score is: {score} out of {maxscore}"
+            return redirect("/result")
+
     else:
         if len(qdata) == 0:
             return redirect("/")
@@ -74,9 +75,12 @@ def game():
     return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0]][2], code=return_code, output=output, score=score)
 
 
-@app.route("/results", methods=["GET","POST"])
+@app.route("/result")
 def result():
-    return render_template("index.html")
+    if maxscore == 0:
+        return redirect("/")
+    else:
+        return render_template("result.html", score=score, maxscore=maxscore)
 
 
 if __name__ == "__main__":

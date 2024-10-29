@@ -21,3 +21,7 @@ TODO
 generate better testcases as shown above
 check code finite compile and run as shown above
 a interface to interact and play
+result screen makeover
+add questions
+add comments to code base
+resizer highlight
