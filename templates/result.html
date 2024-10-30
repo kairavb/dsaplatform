@@ -98,6 +98,15 @@
             font-style: italic;
             color: #777;
         }
+        .status-0 {
+            color: green;
+        }
+        .status-1 {
+            color: gold;
+        }
+        .status-2 {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -125,24 +134,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in range(length) %}
+                    {% set tagtext = "Easy" if resultdata[i][3] == 0 else "Medium" if resultdata[i][3] == 1 else "Hard" %}
                     <tr>
-                        <td>1</td>
-                        <td>John Doe</td>
-                        <td>95</td>
-                        <td>Team A</td>
+                        <td>{{ resultdata[i][0] }}</td>
+                        <td>{{ resultdata[i][1] }}</td>
+                        <td class="{{ 'status-0' if resultdata[i][2] == 'Passed' else 'status-2' }}">{{ resultdata[i][2] }}</td>
+                        <td class="{{ 'status-0' if resultdata[i][3] == 0 else 'status-1' if resultdata[i][3] == 1 else 'status-2' }}">{{ tagtext }}</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Jane Smith</td>
-                        <td>92</td>
-                        <td>Team B</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Alex Johnson</td>
-                        <td>89</td>
-                        <td>Team C</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </section>

@@ -1,15 +1,10 @@
 answers/__pycache__/
 *.py[cod]
 
-/problems
-
 /answers
-
+/static
 /tests
-
-/output.txt
 
 data.db
 user.py
-/static
 testrun.py

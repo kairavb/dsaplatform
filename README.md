@@ -18,18 +18,11 @@ the type of test cases should be,
 6. special cases
 
 TODO
-generate better testcases as shown above
-check code finite compile and run as shown above
-a interface to interact and play
-result screen makeover
+check code finite compile time
 add questions
 add comments to code base
-resizer highlight
-add a sql data, for questions/results (im so tired!)
-data.txt and result.txt
-['prblmid', 'testcasefile', 'prblmname', 'answername', 'prblmquality']
-['qid', 'q name', 'q result', 'tag']
 
+Question Data Table Schema
 cursor.execute('''
 CREATE TABLE IF NOT EXISTS ques (
     id INTEGER PRIMARY KEY AUTOINCREMENT,

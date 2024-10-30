@@ -1,6 +1,5 @@
 from flask import Flask, redirect, render_template, request
 from waitress import serve
-from ast import literal_eval
 from random import sample
 from subprocess import run
 import sqlite3
@@ -8,17 +7,7 @@ import sqlite3
 conn = sqlite3.connect('data.db')
 cursor = conn.cursor()
 
-
-# INSERT INTO ques (tcase, image, ansname, tag) VALUES ('n 1t100', '1', 'a1', 0);
-# cursor.execute('INSERT INTO ques (tcase, image, ansname, tag) VALUES (?, ?, ?, ?)', ('n 1t100', '1', 'a1', 0))
-
-# Commit the changes
-# conn.commit()
-
-# Close the connection
-# conn.close()
-
-qdata = []
+qdata, resultdata = [], []
 score, maxscore = 0, 0
 
 cursor.execute('SELECT * FROM ques')
@@ -32,8 +21,8 @@ app = Flask(__name__)
 @app.route("/", methods=["GET","POST"])
 def index():
     if request.method == "POST":
-        global qdata, score, maxscore
-        qdata = []
+        global qdata, score, maxscore, resultdata
+        qdata, resultdata = [], []
         score, maxscore = 0, 0
         qid = int(request.form.get("code"))
 
@@ -60,7 +49,7 @@ def index():
 
 @app.route("/game", methods=["GET","POST"])
 def game():
-    global score, maxscore
+    global score, maxscore, resultdata
     return_code = 0
     output = ''
     if request.method == "POST":
@@ -77,6 +66,9 @@ def game():
             score += SCORECARD[qdata[-1][2] + 1]
         else:
             score += SCORECARD[0]
+        
+        output = "Passed" if len(output) == 0 else output
+        resultdata.append([qdata[-1][0], data[qdata[-1][0] - 1][3], output, qdata[-1][2]])
 
         qdata.pop()
         if len(qdata) == 0:
@@ -86,7 +78,7 @@ def game():
         if len(qdata) == 0:
             return redirect("/")
 
-    return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0] - 1][2], code=return_code, output=output, score=score)
+    return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0] - 1][2], score=score)
 
 
 @app.route("/result")
@@ -94,7 +86,8 @@ def result():
     if maxscore == 0:
         return redirect("/")
     else:
-        return render_template("result.html", score=score, maxscore=maxscore)
+        length = len(resultdata)
+        return render_template("result.html", score=score, maxscore=maxscore, resultdata=resultdata, length=length)
 
 
 if __name__ == "__main__":
