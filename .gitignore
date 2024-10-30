@@ -9,7 +9,7 @@ answers/__pycache__/
 
 /output.txt
 
-data.txt
+data.db
 user.py
 /static
 testrun.py

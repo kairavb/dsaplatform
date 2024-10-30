@@ -26,3 +26,16 @@ add questions
 add comments to code base
 resizer highlight
 add a sql data, for questions/results (im so tired!)
+data.txt and result.txt
+['prblmid', 'testcasefile', 'prblmname', 'answername', 'prblmquality']
+['qid', 'q name', 'q result', 'tag']
+
+cursor.execute('''
+CREATE TABLE IF NOT EXISTS ques (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    tcase TEXT NOT NULL,
+    image TEXT NOT NULL,
+    ansname TEXT NOT NULL,
+    tag INTEGER NOT NULL
+)
+''')

@@ -3,14 +3,28 @@ from waitress import serve
 from ast import literal_eval
 from random import sample
 from subprocess import run
+import sqlite3
+
+conn = sqlite3.connect('data.db')
+cursor = conn.cursor()
+
+
+# INSERT INTO ques (tcase, image, ansname, tag) VALUES ('n 1t100', '1', 'a1', 0);
+# cursor.execute('INSERT INTO ques (tcase, image, ansname, tag) VALUES (?, ?, ?, ?)', ('n 1t100', '1', 'a1', 0))
+
+# Commit the changes
+# conn.commit()
+
+# Close the connection
+# conn.close()
 
 qdata = []
 score, maxscore = 0, 0
-data = []
-with open(f'data.txt', 'r') as file:
-    for line in file:
-        data.append(literal_eval(line))
-QRANGE = [1, len(data) - 1]
+
+cursor.execute('SELECT * FROM ques')
+data = cursor.fetchall()
+
+QRANGE = [0, len(data)]
 SCORECARD = [-20, 50 , 70, 100]
 
 app = Flask(__name__)
@@ -36,7 +50,7 @@ def index():
         else:
             n, minutes = 10, 10
 
-        qlist = sample(range(QRANGE[0], QRANGE[1] + 1), n)
+        qlist = sample(range(QRANGE[0], QRANGE[1]), n)
         for i in qlist:
             qdata.append([data[i][0], minutes, data[i][4]])
         return redirect("/game")
@@ -54,7 +68,7 @@ def game():
         with open('user.py', 'w') as f:
             f.write(textarea_content + '\n')
         
-        result = run(['python', 'judge.py', f'{data[qdata[-1][0]][1]}', f'{data[qdata[-1][0]][3]}'], capture_output=True, text=True)
+        result = run(['python', 'judge.py', f'{data[qdata[-1][0] - 1][1]}', f'{data[qdata[-1][0] - 1][3]}'], capture_output=True, text=True)
         return_code = result.returncode
         output = result.stdout
         
@@ -72,7 +86,7 @@ def game():
         if len(qdata) == 0:
             return redirect("/")
 
-    return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0]][2], code=return_code, output=output, score=score)
+    return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0] - 1][2], code=return_code, output=output, score=score)
 
 
 @app.route("/result")
