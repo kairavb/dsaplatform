@@ -28,15 +28,15 @@ run this to create table, sqlite3
 CREATE TABLE IF NOT EXISTS ques (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tcase TEXT NOT NULL,
-    image TEXT NOT NULL,
-    ansname TEXT NOT NULL,
-    tag INTEGER NOT NULL
+    image TEXT NOT NULL UNIQUE,
+    ansname TEXT NOT NULL UNIQUE,
+    tag INTEGER NOT NULL CHECK (tag IN (0, 1, 2))
 );
 
 add questions with,
 
 ```sql
-INSERT INTO table_name (tcase, image, ansname, tag)
+INSERT INTO ques (tcase, image, ansname, tag)
 VALUES ('n 1t100', 'ques1', 'ans1', 0);
 ```
 

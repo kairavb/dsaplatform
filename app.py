@@ -68,7 +68,7 @@ def game():
             score += SCORECARD[0]
         
         output = "Passed" if len(output) == 0 else output
-        resultdata.append([qdata[-1][0], data[qdata[-1][0] - 1][3], output, qdata[-1][2]])
+        resultdata.append([qdata[-1][0], data[qdata[-1][0] - 1][2], output, qdata[-1][2]])
 
         qdata.pop()
         if len(qdata) == 0:
