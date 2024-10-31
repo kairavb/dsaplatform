@@ -13,7 +13,7 @@ ANSFILE = argv[2]  # answer file
 # importing expected_code and given_code
 try:
     expected_code = import_module(f'answers.{ANSFILE}')
-    given_code = import_module('user')
+    given_code = import_module('answers.user')
 except Exception as e:
     print(f"Syntax Error, {e}")
     exit(1)

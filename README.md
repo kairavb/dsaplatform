@@ -22,13 +22,60 @@ check code finite compile time
 add questions
 add comments to code base
 
-Question Data Table Schema
-cursor.execute('''
+## Question Data Table Schema
+run this to create table, sqlite3
+
 CREATE TABLE IF NOT EXISTS ques (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     tcase TEXT NOT NULL,
     image TEXT NOT NULL,
     ansname TEXT NOT NULL,
     tag INTEGER NOT NULL
-)
-''')
+);
+
+add questions with,
+
+```sql
+INSERT INTO table_name (tcase, image, ansname, tag)
+VALUES ('n 1t100', 'ques1', 'ans1', 0);
+```
+
+Tags,
+0 --> easy
+1 --> easy
+2 --> hard
+
+Tree
+```
+.
+├── answers
+│   ├── ans1.py
+│   ├── ans2.py
+│   └── user.py
+├── app.py
+├── data.db
+├── judge.py
+├── README.md
+├── static
+│   ├── 1.png
+│   └── 2.png
+├── templates
+│   ├── game.html
+│   ├── index.html
+│   └── result.html
+├── testCaseCreator.py
+├── testrun.py
+└── tests
+    ├── an 1t10t-100t100 -100t100.txt
+    └── n 1t100.txt
+```
+
+## running code
+
+after cloning, add your own questions (optional)
+
+question images in /static
+answers in /answers and sql data table
+
+then in root dir run
+```python app.py```

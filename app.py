@@ -54,7 +54,7 @@ def game():
     output = ''
     if request.method == "POST":
         textarea_content = request.form['textarea']
-        with open('user.py', 'w') as f:
+        with open('answers/user.py', 'w') as f:
             f.write(textarea_content + '\n')
         
         result = run(['python', 'judge.py', f'{data[qdata[-1][0] - 1][1]}', f'{data[qdata[-1][0] - 1][3]}'], capture_output=True, text=True)
