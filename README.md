@@ -29,10 +29,8 @@ now i have to go back to data.txt instead data.db :(
 run this to create table, sqlite3
 
 CREATE TABLE IF NOT EXISTS ques (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
     tcase TEXT NOT NULL,
     image TEXT NOT NULL UNIQUE,
-    ansname TEXT NOT NULL UNIQUE,
     tag INTEGER NOT NULL CHECK (tag IN (0, 1, 2))
 );
 
@@ -42,6 +40,10 @@ add questions with,
 INSERT INTO ques (tcase, image, ansname, tag)
 VALUES ('n 1t100', 'ques1', 'ans1', 0);
 ```
+
+shifted from sql to file based database  
+like,  
+('n 0t5000', 'Count all digits of a number', 0)
 
 Tags,
 0 --> easy
@@ -78,7 +80,7 @@ Tree
 after cloning, add your own questions (optional)
 
 question images in /static
-answers in /answers and sql data table
+answers in /answers and question data in data.txt
 
 then in root dir run
 ```python app.py```

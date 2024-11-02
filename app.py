@@ -2,16 +2,17 @@ from flask import Flask, redirect, render_template, request
 from waitress import serve
 from random import sample
 from subprocess import run
-import sqlite3
-
-conn = sqlite3.connect('data.db')
-cursor = conn.cursor()
+from ast import literal_eval
 
 qdata, resultdata = [], []
 score, maxscore = 0, 0
 
-cursor.execute('SELECT * FROM ques')
-data = cursor.fetchall()
+data = []
+with open(f'data.txt', 'r') as file:
+    line_num = 0
+    for line in file:
+        line_num += 1
+        data.append(literal_eval(line))
 
 QRANGE = [0, len(data)]
 SCORECARD = [-20, 50 , 70, 100]
@@ -41,7 +42,7 @@ def index():
 
         qlist = sample(range(QRANGE[0], QRANGE[1]), n)
         for i in qlist:
-            qdata.append([data[i][0], minutes, data[i][4]])
+            qdata.append([i + 1, minutes, data[i][2]])
         return redirect("/game")
     else:
         return render_template("index.html")
@@ -57,7 +58,7 @@ def game():
         with open('answers/user.py', 'w') as f:
             f.write(textarea_content + '\n')
         
-        result = run(['python', 'judge.py', f'{data[qdata[-1][0] - 1][1]}', f'{data[qdata[-1][0] - 1][3]}'], capture_output=True, text=True)
+        result = run(['python', 'judge.py', f'{data[qdata[-1][0] - 1][0]}', f'a{qdata[-1][0]}'], capture_output=True, text=True)
         return_code = result.returncode
         output = result.stdout
         
@@ -68,7 +69,7 @@ def game():
             score += SCORECARD[0]
         
         output = "Passed" if len(output) == 0 else output
-        resultdata.append([qdata[-1][0], data[qdata[-1][0] - 1][2], output, qdata[-1][2]])
+        resultdata.append([qdata[-1][0], data[qdata[-1][0] - 1][1], output, qdata[-1][2]])
 
         qdata.pop()
         if len(qdata) == 0:
@@ -78,7 +79,7 @@ def game():
         if len(qdata) == 0:
             return redirect("/")
 
-    return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0] - 1][2], score=score)
+    return render_template("game.html", timer=qdata[-1][1], prblm=data[qdata[-1][0] - 1][1], score=score)
 
 
 @app.route("/result")

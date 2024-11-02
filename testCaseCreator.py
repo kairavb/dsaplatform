@@ -5,7 +5,7 @@
 from random import randint, choice, sample
 from sys import argv
 
-
+# array of numbers
 def type_array(n):
     testcases = []
     edgecases = [
@@ -23,6 +23,22 @@ def type_array(n):
         temp = randint(n[0], min(n[1], RTLENGTH))
         randomcase = [randint(n[2], n[3]) for _ in range(temp)]
         testcases.append(randomcase)
+    
+    return testcases
+
+# array of sorted numbers
+def sorted_array(n):
+    testcases = type_array(n)
+    for row in testcases:
+        row.sort()
+    
+    return testcases
+
+# array of sorted characters
+def sorted_array_c(n):
+    testcases = type_array_c(n)
+    for row in testcases:
+        row.sort()
     
     return testcases
 
