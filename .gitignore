@@ -6,4 +6,5 @@ answers/__pycache__/
 /tests
 
 data.db
+data.txt
 testrun.py
