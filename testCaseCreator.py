@@ -20,7 +20,8 @@ def type_array(n):
     testcases.extend(edgecases)
 
     while len(testcases) < NUMT:
-        randomcase = [randint(n[2], n[3]) for _ in range(n[0], min(n[1], RTLENGTH) + 1)]
+        temp = randint(n[0], min(n[1], RTLENGTH))
+        randomcase = [randint(n[2], n[3]) for _ in range(temp)]
         testcases.append(randomcase)
     
     return testcases
@@ -43,7 +44,22 @@ def type_array_c(n):
     testcases.extend(edgecases)
 
     while len(testcases) < NUMT:
-        randomcase = [choice(stringtype) for _ in range(n[0], min(n[1], RTLENGTH) + 1)]
+        temp = randint(n[0], min(n[1], RTLENGTH))
+        randomcase = [choice(stringtype) for _ in range(temp)]
+        testcases.append(randomcase)
+    
+    return testcases
+
+def type_array_s(n):
+    testcases = []
+    stringtype = [chr(i) for i in range(97, 123)]
+    stringrange = [2,3,4,5,6,7,8]
+
+    while len(testcases) < NUMT:
+        randomcase = []
+        temp = randint(n[0], min(n[1], RTLENGTH))
+        for _ in range(temp):
+            randomcase.append(''.join(choice(stringtype) for _ in range(1, choice(stringrange) + 1)))
         testcases.append(randomcase)
     
     return testcases
@@ -63,6 +79,16 @@ def type_nums(n):
 
     return testcases
 
+def type_string_n(n):
+    testcases = []
+    stringtype = [chr(i) for i in range(48, 58)]
+
+    for _ in range(NUMT):
+        temp = randint(n[0], min(n[1], RTLENGTH))
+        testcases.append(''.join(choice(stringtype) for _ in range(temp)))
+
+    return testcases
+
 def type_string(n):
     testcases = []
 
@@ -78,14 +104,15 @@ def type_string(n):
     testcases.extend(edgecases)
 
     while len(testcases) < NUMT:
-        randomcase = ''.join(choice(stringtype) for _ in range(n[0], min(n[1], RTLENGTH) + 1))
+        temp = randint(n[0], min(n[1], RTLENGTH))
+        randomcase = ''.join(choice(stringtype) for _ in range(temp))
         testcases.append(randomcase)
     
     return testcases
 
 
 NUMT = 500  # number of testcases per arg
-RTLENGTH = 50  # random case length for aray, string
+RTLENGTH = 30  # random case length for array, string
 
 test = argv[1].split()  # testcase constraint
 
@@ -109,6 +136,18 @@ for i, k in enumerate(test[0]):
     elif k == 'b':
         with open(f'tests/{argv[1]}.txt', 'a') as file:
             tests = type_array_c(n)
+            for i in tests:
+                file.write(f'{i}\n')
+    
+    elif k == 'c':
+        with open(f'tests/{argv[1]}.txt', 'a') as file:
+            tests = type_array_s(n)
+            for i in tests:
+                file.write(f'{i}\n')
+    
+    elif k == 'd':
+        with open(f'tests/{argv[1]}.txt', 'a') as file:
+            tests = type_string_n(n)
             for i in tests:
                 file.write(f'{i}\n')
     

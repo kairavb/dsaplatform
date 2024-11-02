@@ -21,6 +21,9 @@ TODO
 check code finite compile time
 add questions
 add comments to code base
+add method to add unique testcases
+revert back to data.txt insteat sql bcz i fucked up
+now i have to go back to data.txt instead data.db :(
 
 ## Question Data Table Schema
 run this to create table, sqlite3
