@@ -42,6 +42,7 @@ def sorted_array_c(n):
     
     return testcases
 
+# array of characters
 def type_array_c(n):
     testcases = []
     stringtype = [chr(i) for i in range(65, 91)]
@@ -66,6 +67,7 @@ def type_array_c(n):
     
     return testcases
 
+# array of strings
 def type_array_s(n):
     testcases = []
     stringtype = [chr(i) for i in range(97, 123)]
@@ -80,6 +82,7 @@ def type_array_s(n):
     
     return testcases
 
+# numbers
 def type_nums(n):
     # chooses more unique numbers
     edgecases = [n[0], n[1]]
@@ -95,6 +98,7 @@ def type_nums(n):
 
     return testcases
 
+# number that is string
 def type_string_n(n):
     testcases = []
     stringtype = [chr(i) for i in range(48, 58)]
@@ -105,6 +109,7 @@ def type_string_n(n):
 
     return testcases
 
+# string
 def type_string(n):
     testcases = []
 
