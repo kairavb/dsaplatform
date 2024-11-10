@@ -140,60 +140,34 @@
     // editor functions
     const editor = document.getElementById('editor');
     editor.addEventListener('keydown', function(event) {
+        const { selectionStart: start, selectionEnd: end, value } = this;
+
         if (event.key === 'Tab') {
-            event.preventDefault(); // Prevent the default tab behavior
-            const start = this.selectionStart;
-            const end = this.selectionEnd;
-
-            // Insert spaces (4 spaces for a tab)
-            const value = this.value;
-            this.value = value.substring(0, start) + '    ' + value.substring(end);
-            this.selectionStart = this.selectionEnd = start + 4; // Move the cursor
+            event.preventDefault();
+            if (start === end) {
+                document.execCommand("insertText", false, "    ");
+            } else {
+                const indentedText = value.substring(start, end).replace(/^/gm, "    ");
+                document.execCommand("insertText", false, indentedText);
+                this.selectionEnd = start + indentedText.length;
+            }
         } else if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent the default enter behavior
-            const start = this.selectionStart;
-            const value = this.value;
+            event.preventDefault();
             const currentLineStart = value.lastIndexOf('\n', start - 1) + 1;
-            const currentLine = value.substring(currentLineStart, start);
-            
-            // Determine leading spaces
-            const leadingSpaces = currentLine.match(/^(\s*)/)[0];
-            this.value = value.substring(0, start) + '\n' + leadingSpaces + value.substring(start);
-            this.selectionStart = this.selectionEnd = start + leadingSpaces.length + 1; // Move the cursor
-        } else if (event.key === '{') {
-            // Automatically add closing bracket
+            let newIndentation = value.substring(currentLineStart, start).match(/^(\s*)/)[0];
+            if (value.substring(currentLineStart, start).trim().endsWith(':')) newIndentation += '    ';
+            document.execCommand("insertText", false, `\n${newIndentation}`);
+            this.selectionStart = this.selectionEnd = start + newIndentation.length + 1;
+        } else if ('{(['.includes(event.key)) {
             event.preventDefault();
-            const start = this.selectionStart;
-            const value = this.value;
-            this.value = value.substring(0, start) + '{}' + value.substring(start);
-            this.selectionStart = this.selectionEnd = start + 1; // Place cursor inside the brackets
-        } else if (event.key === '(') {
-            // Automatically add closing round bracket
-            event.preventDefault();
-            const start = this.selectionStart;
-            const value = this.value;
-            this.value = value.substring(0, start) + '()' + value.substring(start);
-            this.selectionStart = this.selectionEnd = start + 1; // Place cursor inside the brackets
-        } else if (event.key === '[') {
-            // Automatically add closing square bracket
-            event.preventDefault();
-            const start = this.selectionStart;
-            const value = this.value;
-            this.value = value.substring(0, start) + '[]' + value.substring(start);
-            this.selectionStart = this.selectionEnd = start + 1; // Place cursor inside the brackets
-        } else if (event.key === 'Backspace') {
-            const start = this.selectionStart;
-            const value = this.value;
-
-            // Check if backspace is at the start of a line with spaces
+            document.execCommand("insertText", false, event.key + ({ '{': '}', '(': ')', '[': ']' }[event.key]));
+            this.selectionStart = this.selectionEnd = start + 1;
+        } else if (event.key === 'Backspace' && start === end) {
             const currentLineStart = value.lastIndexOf('\n', start - 1) + 1;
-            const currentLine = value.substring(currentLineStart, start);
-
-            // If the current line consists of leading spaces (4 spaces)
-            if (currentLine.match(/^ {4}/) && currentLine.trim() === '') {
-                event.preventDefault(); // Prevent the default backspace behavior
-                this.value = value.substring(0, currentLineStart) + value.substring(currentLineStart + 4); // Remove leading 4 spaces
-                this.selectionStart = this.selectionEnd = currentLineStart; // Move cursor to the start of the line
+            if (value.substring(currentLineStart, start).endsWith('    ')) {
+                event.preventDefault();
+                this.value = value.substring(0, start - 4) + value.substring(start);
+                this.selectionStart = this.selectionEnd = start - 4;
             }
         }
     });
